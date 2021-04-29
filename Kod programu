@@ -1,0 +1,75 @@
+import matplotlib.pyplot as plt
+import math
+import numpy as np
+from tkinter import *
+
+root = Tk()
+root.title("Funkcja kwadratowa")
+root.configure(background="lightblue")
+txta = StringVar()
+txtb = StringVar()
+
+
+
+
+def liczenie_delty():
+    a = float(E1.get())
+    b = float(E2.get())
+    c = float(E3.get())
+    if a != 0:
+        delta = (b * b) - (4 * a * c)
+        txtb.set(str(delta))
+        if delta == 0:
+            x0 = (-b) / 2 * a
+            txta.set(str(x0))
+
+        if delta < 0:
+            txta.set("Brak miejsc zerowych")
+        if delta > 0:
+            x1 = (-b - math.sqrt(delta) / (2 * a))
+            x2 = (-b + math.sqrt(delta) / (2 * a))
+            txta.set(str(x1) + "   lub   " + str(x2))
+    else:
+         txta.set("nieprawidlowa wartosc'a'")
+         txtb.set("nieprawidlowa wartosc'a'")
+def rysowanie_funkcji():
+    a = float(E1.get())
+    b = float(E2.get())
+    c = float(E3.get())
+    x = np.arange(-20, 20, 0.1)
+    y = a * (x ** 2) + x * b + c
+    plt.figure(figsize=(10, 8), dpi=100, facecolor="lightblue")
+    plt.axhline(y=0, color="black")
+    plt.axvline(x=0, color="black")
+
+    plt.plot(x, y)
+    plt.show()
+
+
+L1 = Label(root, text="Wprowadź a, b oraz c alby policzyć miejsca zerowe oraz narysować funkję" )
+L1.grid(row=0, column=0, columnspan=2)
+LA = Label(root, text="A = ", bg="lightblue")
+LA.grid(row=1, column=0)
+LB = Label(root, text="B = ", bg="lightblue")
+LB.grid(row=2, column=0)
+LC = Label(root, text="C = ", bg="lightblue")
+LC.grid(row=3, column=0)
+E1 = Entry(root)
+E1.grid(row=1, column=1, ipadx=100)
+E2 = Entry(root)
+E2.grid(row=2, column=1, ipadx=100)
+E3 = Entry(root)
+E3.grid(row=3, column=1, ipadx=100)
+L4 = Label(root, text="X = ", bg="lightblue")
+L4.grid(row=5, column=0)
+E4 = Entry(root, textvariable=txta)
+E4.grid(row=5, column=1, ipadx=100)
+L5 = Label(root, text="Delta = ", bg="lightblue")
+L5.grid(row=6, column=0)
+E5 = Entry(root, textvariable=txtb)
+E5.grid(row=6, column=1, ipadx=100)
+
+
+Button(root, text="Licz",fg = "white", bg = "gray", command=lambda: liczenie_delty()).grid(row=4, column=1)
+Button(root, text="rysuj Funkję",fg = "white" , bg = "gray",  command=lambda: rysowanie_funkcji()).grid(row=7, column=1)
+mainloop()
